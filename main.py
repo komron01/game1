@@ -1,32 +1,33 @@
-# напиши здесь код третьего экрана приложения
-from PyQt5.QtCore import Qt, QTimer, QTime
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
-from instr import *
+from pygame import *
 
-class FinalWin(QWidget):
-    def __init__(self, exp):
+init()
+back= (200,255,255)
+win_width=700
+win_height=500
+GREEN = (0,255,0)
+window = display.set_mode((win_width,win_height))
+window.fill(back)
+display.set_caption('Моя первая игра')
+picture = transform.scale(image.load('background.jpg'), (700,500))
+
+class Card(sprite.Sprite):
+    def __init__(self, width, height, x,y,color):
         super().__init__()
-        self.exp=exp
-        self.set_appear()
-        self.initUI()
-        self.connects()
-        self.show()
-    def set_appear(self):
-        self.setWindowTitle(txt_finalwin)
-        self.resize(win_width,win_height)
-        self.move(win_x,win_y)
-    def initUI(self):
-        ind=(4*(self.exp.test1+self.exp.test2+self.exp.test3)-200)/10
-        ind1=txt_index+str(ind)
-        self.index=QLabel(ind1)
-        self.workheart=QLabel(txt_workheart)
-        self.m_line=QVBoxLayout()
-        self.m_line.addWidget(self.index, alignment=Qt.AlignCenter)
-        self.m_line.addWidget(self.workheart, alignment=Qt.AlignCenter)
-        self.setLayout(self.m_line)
+        self.rect = Rect(x,y,width, height)
+        self.fill_color = color
+    
+    def draw(self):
+        draw.rect(window,self.fill_color,self.rect)
 
-    def connects(self):
-        pass
+greenCard=Card(100,100,100,250,GREEN)
 
-    def next_click(self):
-        pass   
+run = True
+while run:
+    window.blit(picture, (0,0))
+    greenCard.draw()
+    time.delay(50)
+    for e in event.get():
+        if e.type == QUIT:
+            run= False #break
+    display.update()
+
